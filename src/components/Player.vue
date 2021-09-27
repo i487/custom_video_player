@@ -1,15 +1,20 @@
 <template>
     <div class="w-4/5 p-8 bg-gray-800 rounded flex justify-center">
     <div class="relative w-3/5">
-        <div class="cursor-pointer" id="player">
+        <div class="cursor-pointer relative" id="player">
             <video :src="url" class="w-full rounded" ref="videoElem">
             </video>
-            <div class="flex gap-4 items-end">
-                <h2 class="text-3xl text-white mt-2"> {{ author }} :</h2>
-                <h2 class="text-xl text-white mt-2"> {{ name }} </h2>
+            <div class="absolute top-0 w-full h-full flex justify-center items-center bg-gray-200 opacity-50 rounded
+            transition duration-200 ease-in-out "
+            :class="played ? 'invisible' : '' " >
+                <i @click="play" class="fas fa-play-circle text-5xl opacity-100"></i>
             </div>
         </div>
-        <div class="h-16 bg-gray-700 flex flex-col gap-4 w-full 
+        <div class="flex gap-4 items-end">
+            <h2 class="text-3xl text-white mt-2"> {{ author }} :</h2>
+            <h2 class="text-xl text-white mt-2"> {{ name }} </h2>
+        </div>
+        <div class="h-16 bg-gray-700 flex flex-col gap-4 w-full opacity-0
             transition duration-200 ease-in-out hover:opacity-100
             absolute bottom-10 
              ">
@@ -19,7 +24,7 @@
             <div class="controls flex justify-between px-8">
                 <div class="flex gap-8">
                     <div class="flex gap-4 items-center">
-                        <button>
+                        <button @click="back">
                             <i class="fa fa-backward text-white" aria-hidden="true"></i>
                         </button>
                         <button v-on:keyup.tab="play" v-if="isPaused()" @click="play">
@@ -28,7 +33,7 @@
                         <button v-if="!isPaused()" @click="pause">
                             <i class="fa fa-fw fa-pause text-white"></i>
                         </button>
-                        <button>
+                        <button @click="next">
                             <i class="fa fa-forward text-white" aria-hidden="true"></i>
                         </button>
                     </div>
@@ -87,6 +92,7 @@
             return {
                 isFullScreen: false,
                 showMe: false,
+                played: false,
             }
         },
         mounted: function () {
@@ -125,6 +131,7 @@
             },
             play: function () {
                 this.$refs.videoElem.play()
+                this.played = !this.played
             },
             pause: function () {
                 this.$refs.videoElem.pause()
@@ -199,6 +206,15 @@
             },
             speedNorm: function () {
                 this.$refs.videoElem.playbackRate = 1;
+            },
+            // next and back functions
+            next: function() {
+                this.$emit('next')
+                console.log('ish qivomman')
+            },
+            back: function() {
+                this.$emit('back')
+                console.log('ishlar qivomman')
             },
         }
     }
