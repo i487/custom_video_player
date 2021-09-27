@@ -1,5 +1,5 @@
 <template>
-  <div class="container bg-blue-300 py-16 h-full">
+  <div class="container bg-blue-300 py-16 h-100">
     <div class="flex flex-col justify-center items-center gap-8">
       <Player v-for="(item, index) in videos" :key="index"
       :url="item.url"
